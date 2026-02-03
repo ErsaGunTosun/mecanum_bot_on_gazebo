@@ -24,24 +24,8 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_executable(mecanum_teleop_controller src/mecanum_teleop_controller.cpp)
-ament_target_dependencies(mecanum_teleop_controller 
-  rclcpp 
-  geometry_msgs 
-  std_msgs
-  sensor_msgs
-)
-
-add_executable(mecanum_kinematics_node src/mecanum_kinematics_node.cpp)
-ament_target_dependencies(mecanum_kinematics_node 
-  rclcpp 
-  geometry_msgs
-)
-
 
 install(TARGETS
-  mecanum_teleop_controller
-  mecanum_kinematics_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

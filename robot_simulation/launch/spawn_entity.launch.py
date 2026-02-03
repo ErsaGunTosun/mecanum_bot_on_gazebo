@@ -13,10 +13,10 @@ def generate_launch_description():
     yaw_arg = DeclareLaunchArgument('yaw', default_value='1.57')
     
     spawn_entity = Node(
-        package = "ros_gz_sim",
-        executable = "create",
+        package = "gazebo_ros",
+        executable = "spawn_entity.py",
         arguments=[
-            "-name","robot",
+            "-entity","robot",
             "-topic","robot_description",
             "-x", LaunchConfiguration('x'),
             "-y", LaunchConfiguration('y'),
@@ -30,24 +30,24 @@ def generate_launch_description():
     )
 
 
-    bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=[
-            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
-            '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
-            '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
-            '/model/robot/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
-            '/world/maze_world/model/robot/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model',
-        ],
-        output='screen',
-        parameters=[{'use_sim_time': True}],
-        remappings=[
-            ('/model/robot/tf', '/tf'),
-            ('/world/maze_world/model/robot/joint_state', '/joint_states'),
-        ]
-    )
+    # bridge = Node(
+    #     package='ros_gz_bridge',
+    #     executable='parameter_bridge',
+    #     arguments=[
+    #         '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+    #         '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+    #         '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+    #         '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+    #         '/model/robot/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+    #         '/world/maze_world/model/robot/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model',
+    #     ],
+    #     output='screen',
+    #     parameters=[{'use_sim_time': True}],
+    #     remappings=[
+    #         ('/model/robot/tf', '/tf'),
+    #         ('/world/maze_world/model/robot/joint_state', '/joint_states'),
+    #     ]
+    # )
 
 
 
@@ -57,5 +57,5 @@ def generate_launch_description():
         z_arg,
         yaw_arg,
         spawn_entity,
-        bridge
+        # bridge
     ])

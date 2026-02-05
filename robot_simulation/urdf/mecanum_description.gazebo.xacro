@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<robot name="mecanum_description" xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Roller link macro -->
+  <xacro:macro name="roller_gazebo" params="num suffix">
+    <gazebo reference="roller_${num}_${suffix}">
+      <material>Gazebo/FlatBlack</material>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="inner_part_gazebo" params="suffix">
+    <gazebo reference="mecanum_inner_part_${suffix}">
+      <material>Gazebo/Gray</material>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:inner_part_gazebo suffix="rf"/>
+  <xacro:roller_gazebo num="1" suffix="rf"/>
+  <xacro:roller_gazebo num="2" suffix="rf"/>
+  <xacro:roller_gazebo num="3" suffix="rf"/>
+  <xacro:roller_gazebo num="4" suffix="rf"/>
+  <xacro:roller_gazebo num="5" suffix="rf"/>
+  <xacro:roller_gazebo num="6" suffix="rf"/>
+  <xacro:roller_gazebo num="7" suffix="rf"/>
+  <xacro:roller_gazebo num="8" suffix="rf"/>
+
+  <xacro:inner_part_gazebo suffix="lf"/>
+  <xacro:roller_gazebo num="1" suffix="lf"/>
+  <xacro:roller_gazebo num="2" suffix="lf"/>
+  <xacro:roller_gazebo num="3" suffix="lf"/>
+  <xacro:roller_gazebo num="4" suffix="lf"/>
+  <xacro:roller_gazebo num="5" suffix="lf"/>
+  <xacro:roller_gazebo num="6" suffix="lf"/>
+  <xacro:roller_gazebo num="7" suffix="lf"/>
+  <xacro:roller_gazebo num="8" suffix="lf"/>
+
+  <xacro:inner_part_gazebo suffix="rb"/>
+  <xacro:roller_gazebo num="1" suffix="rb"/>
+  <xacro:roller_gazebo num="2" suffix="rb"/>
+  <xacro:roller_gazebo num="3" suffix="rb"/>
+  <xacro:roller_gazebo num="4" suffix="rb"/>
+  <xacro:roller_gazebo num="5" suffix="rb"/>
+  <xacro:roller_gazebo num="6" suffix="rb"/>
+  <xacro:roller_gazebo num="7" suffix="rb"/>
+  <xacro:roller_gazebo num="8" suffix="rb"/>
+
+  <xacro:inner_part_gazebo suffix="lb"/>
+  <xacro:roller_gazebo num="1" suffix="lb"/>
+  <xacro:roller_gazebo num="2" suffix="lb"/>
+  <xacro:roller_gazebo num="3" suffix="lb"/>
+  <xacro:roller_gazebo num="4" suffix="lb"/>
+  <xacro:roller_gazebo num="5" suffix="lb"/>
+  <xacro:roller_gazebo num="6" suffix="lb"/>
+  <xacro:roller_gazebo num="7" suffix="lb"/>
+  <xacro:roller_gazebo num="8" suffix="lb"/>
+
+</robot>

@@ -1,17 +1,14 @@
 import os 
-import sys
 
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, TextSubstitution, PathJoinSubstitution
+from launch.substitutions import PathJoinSubstitution
 from launch import LaunchDescription
-from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    spawn_pos = {'x': '0.0', 'y': '-3.5', 'z': '0.01', 'yaw': '1.57'}
+    spawn_pos = {'x': '0.0', 'y': '-3.5', 'z': '0.05', 'yaw': '1.57'}
 
     package_share_dir = get_package_share_directory("robot_simulation")
 
@@ -68,10 +65,10 @@ def generate_launch_description():
     )
 
 
-
     return LaunchDescription([
         gz_server,
         gz_client,
         robot_state_publisher,
         spawn_entity,
     ])
+

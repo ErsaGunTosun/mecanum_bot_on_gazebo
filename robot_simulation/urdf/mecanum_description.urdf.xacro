@@ -1,0 +1,298 @@
+<?xml version="1.0" ?>
+<robot name="mecanum_description" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!--Mecanum wheel propertires-->
+  <xacro:property name="mw_m" value="0.086"/>   <!-- mecanum's mass -->
+  <xacro:property name="mw_d" value="0.060"/> <!-- mecanum's diameter (whole) -->
+  <xacro:property name="mw_w" value="0.034"/> <!-- mecanum's width -->
+  <xacro:property name="r_num" value="8"/>    <!-- rollers number -->
+  <xacro:property name="c_c" value="1.5"/>    <!-- coverage coefficient -->
+  <xacro:property name="r_d" value="0.010"/> <!-- roller's diameter 20 -->
+  <xacro:property name="r_w" value="0.030"/>  <!-- roller's width 22 -->
+
+  <!-- Roller link macro -->
+  <xacro:macro name="roller" params="num suffix">
+    <link name="roller_${num}_${suffix}" >
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+	  <cylinder radius="0" length="${r_w}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+	  <!-- cylinder radius="${r_d/2}" length="${r_w}"/ -->
+          <mesh filename="package://robot_simulation/models/robot/meshes/wheels/roller_7_step.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia
+	    ixx="0.001" ixy="0.0" ixz="0.0"
+	    iyy="0.001" iyz="0.0"
+	    izz="0.001"/>
+      </inertial>
+    </link>
+
+  </xacro:macro>
+
+ <!-- Mecanum wheel macro (type 1)-->
+  <xacro:macro name="mecanum_wheel1" params="base_name base_diam suffix right front">
+    
+    <!-- Wheel inner part -->
+    <link name="mecanum_inner_part_${suffix}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+	<geometry>
+	  <!-- cylinder radius="${(mw_d - 2*r_d)/2}" length="${mw_w}"/ -->
+          <mesh filename="package://robot_simulation/models/robot/meshes/wheels/mecanum1.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+        <material name="gray">
+          <color rgba="0.8 0.8 0.8 1"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	  <cylinder radius="${(mw_d - 2*r_d)/2}" length="${mw_w}"/>
+	</geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${mw_m}"/>
+        <inertia
+	    ixx="0.001" ixy="0.0" ixz="0.0"
+	    iyy="0.001" iyz="0.0"
+	    izz="0.001"/>
+      </inertial>
+    </link>
+
+    <xacro:roller num="1" suffix="${suffix}"/>
+    <joint name="mecanum_1r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_1_${suffix}"/>
+      <origin xyz="${(mw_d - r_d)/2 + 0.0005} 0 0" rpy="${-3*pi/4} 0 0"/> <!-- 0 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="2" suffix="${suffix}"/>
+    <joint name="mecanum_2r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_2_${suffix}"/>
+      <origin xyz="${((mw_d - r_d)/2 + 0.0005) * 0.7071} ${-((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="0 ${3*pi/4} ${pi/4}"/> <!-- 45 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="3" suffix="${suffix}"/>
+    <joint name="mecanum_3r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_3_${suffix}"/>
+      <origin xyz="0 ${-((mw_d - r_d)/2 + 0.0005)} 0" rpy="0 ${3*pi/4} 0"/> <!-- 90 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="4" suffix="${suffix}"/>
+    <joint name="mecanum_4r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_4_${suffix}"/>
+      <origin xyz="${-((mw_d - r_d)/2 + 0.0005) * 0.7071} ${-((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="${3*pi/4} 0 ${pi/4}"/> <!-- 135 deg roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="5" suffix="${suffix}"/>
+    <joint name="mecanum_5r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_5_${suffix}"/>
+      <origin xyz="${-((mw_d - r_d)/2 + 0.0005)} 0 0" rpy="${3*pi/4} 0 0"/> <!-- 180 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="6" suffix="${suffix}"/>
+    <joint name="mecanum_6r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_6_${suffix}"/>
+      <origin xyz="${-((mw_d - r_d)/2 + 0.0005) * 0.7071} ${((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="0 ${-3*pi/4} ${pi/4}"/> <!-- 225 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+
+    <xacro:roller num="7" suffix="${suffix}"/>
+    <joint name="mecanum_7r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_7_${suffix}"/>
+      <origin xyz="0 ${(mw_d - r_d)/2 + 0.0005} 0" rpy="0 ${-3*pi/4} 0"/> <!-- 270 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="8" suffix="${suffix}"/>
+    <joint name="mecanum_8r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_8_${suffix}"/>
+      <origin xyz="${((mw_d - r_d)/2 + 0.0005) * 0.7071} ${((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="${-3*pi/4} 0 ${pi/4}"/> <!-- 315 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+
+    <joint name="mecanum_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="base_link"/>
+      <child link="mecanum_inner_part_${suffix}"/>
+      <origin xyz="${0.041 * front} ${(0.070 + mw_w/2) * -right} 0.024" rpy="${-pi/2} -0.175 0"/>
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+  </xacro:macro>
+
+<!-- Mecanum wheel macro (type 2) -->
+  <xacro:macro name="mecanum_wheel2" params="base_name base_diam suffix right front">
+    
+    <!-- Wheel inner part -->
+    <link name="mecanum_inner_part_${suffix}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+	<geometry>
+	  <!-- cylinder radius="${(mw_d - 2*r_d)/2}" length="${mw_w}"/ -->
+          <mesh filename="package://robot_simulation/models/robot/meshes/wheels/mecanum2.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+        <material name="gray">
+          <color rgba="0.8 0.8 0.8 1"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	  <cylinder radius="${(mw_d - 2*r_d)/2}" length="${mw_w}"/>
+	</geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${mw_m}"/>
+        <inertia
+	    ixx="0.001" ixy="0.0" ixz="0.0"
+	    iyy="0.001" iyz="0.0"
+	    izz="0.001"/>
+      </inertial>
+    </link>
+
+    <xacro:roller num="1" suffix="${suffix}"/>
+    <joint name="mecanum_1r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_1_${suffix}"/>
+      <origin xyz="${(mw_d - r_d)/2 + 0.0005} 0 0" rpy="${-pi/4} 0 0"/> <!-- 0 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="2" suffix="${suffix}"/>
+    <joint name="mecanum_2r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_2_${suffix}"/>
+      <origin xyz="${((mw_d - r_d)/2 + 0.0005) * 0.7071} ${-((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="0 ${pi/4} ${pi/4}"/> <!-- 45 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="3" suffix="${suffix}"/>
+    <joint name="mecanum_3r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_3_${suffix}"/>
+      <origin xyz="0 ${-((mw_d - r_d)/2 + 0.0005)} 0" rpy="0 ${pi/4} 0"/> <!-- 90 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="4" suffix="${suffix}"/>
+    <joint name="mecanum_4r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_4_${suffix}"/>
+      <origin xyz="${-((mw_d - r_d)/2 + 0.0005) * 0.7071} ${-((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="${pi/4} 0 ${pi/4}"/> <!-- 135 deg roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="5" suffix="${suffix}"/>
+    <joint name="mecanum_5r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_5_${suffix}"/>
+      <origin xyz="${-((mw_d - r_d)/2 + 0.0005)} 0 0" rpy="${pi/4} 0 0"/> <!-- 180 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="6" suffix="${suffix}"/>
+    <joint name="mecanum_6r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_6_${suffix}"/>
+      <origin xyz="${-((mw_d - r_d)/2 + 0.0005) * 0.7071} ${((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="0 ${-pi/4} ${pi/4}"/> <!-- 225 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+
+    <xacro:roller num="7" suffix="${suffix}"/>
+    <joint name="mecanum_7r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_7_${suffix}"/>
+      <origin xyz="0 ${(mw_d - r_d)/2 + 0.0005} 0" rpy="0 ${-pi/4} 0"/> <!-- 270 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+    <xacro:roller num="8" suffix="${suffix}"/>
+    <joint name="mecanum_8r_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="mecanum_inner_part_${suffix}"/>
+      <child link="roller_8_${suffix}"/>
+      <origin xyz="${((mw_d - r_d)/2 + 0.0005) * 0.7071} ${((mw_d - r_d)/2 + 0.0005) * 0.7071} 0" rpy="${-pi/4} 0 ${pi/4}"/> <!-- 315 deg clockwise roller-->
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+
+    <joint name="mecanum_${suffix}_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="base_link"/>
+      <child link="mecanum_inner_part_${suffix}"/>
+      <origin xyz="${0.041 * front} ${(0.070 + mw_w/2) * -right} 0.024" rpy="${-pi/2} 0.175 0"/>
+      <limit effort="100" velocity="100" />
+      <joint_properties damping="0.0" friction="0.0" />
+    </joint>
+
+  </xacro:macro>
+
+</robot>

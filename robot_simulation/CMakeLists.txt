@@ -24,13 +24,22 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+# Mecanum Controller Executable
+add_executable(mecanum_controller src/mecanum_controller.cpp)
+
+ament_target_dependencies(mecanum_controller
+  rclcpp
+  geometry_msgs
+  std_msgs
+)
 
 install(TARGETS
+  mecanum_controller
   DESTINATION lib/${PROJECT_NAME}
 )
 
 install(DIRECTORY
-	launch urdf models worlds
+	launch urdf models worlds config
 	DESTINATION share/${PROJECT_NAME}
 )
 ament_package()

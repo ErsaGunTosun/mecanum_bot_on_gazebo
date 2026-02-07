@@ -64,11 +64,18 @@ def generate_launch_description():
             }.items()
     )
 
+    controllers = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(launch_path,"controllers.launch.py")
+            )
+    )
+
 
     return LaunchDescription([
         gz_server,
         gz_client,
         robot_state_publisher,
         spawn_entity,
+        controllers
     ])
 

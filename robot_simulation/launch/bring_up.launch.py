@@ -5,6 +5,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch import LaunchDescription
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -71,6 +72,13 @@ def generate_launch_description():
             )
     )
 
+    lidar_processor = Node(
+            package='perception_pkg',
+            executable='lidar_processor_node',
+            name='lidar_processor_node',
+            output='screen'
+    )
+
     mapping =  IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(mapping_path,"map_bring_up.launch.py")
@@ -83,5 +91,6 @@ def generate_launch_description():
         robot_state_publisher,
         spawn_entity,
         controllers,
+        lidar_processor,
         mapping
     ])

@@ -1,0 +1,10 @@
+scanner:
+  ros__parameters:
+    target_wall_dist: 0.5
+    move_speed: 0.2
+    turn_speed: 0.5
+    kp: 1.5
+    kd: 0.8
+    min_tour_distance: 5.0
+    loop_closure_threshold: 1.0
+    wall_follow_side: "right"

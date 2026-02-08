@@ -1,0 +1,10 @@
+slam_toolbox:
+  ros__parameters:
+    use_sim_time: true
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan
+    mode: mapping
+    transform_publish_period: 0.02
+    map_update_interval: 5.0

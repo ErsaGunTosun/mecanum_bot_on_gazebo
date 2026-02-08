@@ -17,7 +17,16 @@ def generate_launch_description():
         output='screen'
     )
     
+    tf_relay = Node(
+        package='topic_tools',
+        executable='relay',
+        name='tf_odometry_relay',
+        arguments=['/mecanum_drive_controller/tf_odometry', '/tf'],
+        output='screen'
+    )
+    
     return LaunchDescription([
         joint_state_broadcaster_spawner,
         mecanum_controller_spawner,
+        tf_relay,
     ])

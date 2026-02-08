@@ -26,13 +26,17 @@ def generate_launch_description():
             "launch"
     )
 
+    mapping_path  = os.path.join(
+            get_package_share_directory("mapping_pkg"),
+            "launch"
+    )
+
     gz_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim, 'launch', 'gzserver.launch.py')
         ),
         launch_arguments={
             'world': world_path,
-            'verbose': 'true'
         }.items()
     )
 
@@ -40,9 +44,6 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim, 'launch', 'gzclient.launch.py')
         ),
-        launch_arguments={
-            'verbose': 'true'
-        }.items()
     )
     
 
@@ -70,12 +71,17 @@ def generate_launch_description():
             )
     )
 
+    mapping =  IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(mapping_path,"map_bring_up.launch.py")
+            )
+    )
 
     return LaunchDescription([
         gz_server,
         gz_client,
         robot_state_publisher,
         spawn_entity,
-        controllers
+        controllers,
+        mapping
     ])
-

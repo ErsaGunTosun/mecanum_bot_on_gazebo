@@ -29,3 +29,12 @@ mecanum_drive_controller:
     
     enable_odom_tf: true
     publish_ackermann_command: false
+    
+    # TF frame prefix (empty to avoid namespace issues)
+    tf_frame_prefix_enable: false
+    tf_frame_prefix: ""
+    
+    # Odometry publishing parameters
+    publish_rate: 50.0
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]

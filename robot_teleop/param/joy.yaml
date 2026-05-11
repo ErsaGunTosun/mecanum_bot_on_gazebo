@@ -1,0 +1,25 @@
+joy_node:
+  ros__parameters:
+    dev: /dev/input/js0
+    deadzone: 0.1
+    autorepeat_rate: 20.0
+
+gamepad_teleop_node:
+  ros__parameters:
+    mapping:
+      axis_linear_x_fwd: 5  # Right Trigger
+      axis_linear_x_bwd: 2  # Left Trigger
+      axis_linear_y: 3      # Right Stick Horizontal
+      axis_angular_z: 0     # Left Stick Horizontal
+      enable_button: -1     # -1 to disable enable button requirement
+      estop_button: 1       # Button B (on Xbox) for Emergency Stop
+      turbo_button: 5       # RB
+      precision_button: 4   # LB
+
+    settings:
+      scale_linear_x: 1.0   # Max speed forward/backward
+      scale_linear_y: 1.0   # Max speed strafe
+      scale_angular_z: 2.0  # Max speed rotation
+      turbo_scale: 2.0      # 2x speed when Turbo is held
+      precision_scale: 0.3  # 0.5x speed when Precision is held
+      deadzone: 0.1         # Deadzone for sticks

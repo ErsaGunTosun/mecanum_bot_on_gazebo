@@ -27,7 +27,7 @@ mecanum_drive_controller:
     base_frame_id: base_footprint
     odom_frame_id: odom
     
-    enable_odom_tf: true
+    enable_odom_tf: false
     publish_ackermann_command: false
     
     # TF frame prefix (empty to avoid namespace issues)
@@ -35,8 +35,27 @@ mecanum_drive_controller:
     tf_frame_prefix: ""
     
     # Odometry publishing parameters
-    publish_rate: 50.0
+    publish_rate: 30.0
     pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     
     use_stamped_vel: false
+    
+    # --- Ani Hareketleri Engellemek İçin Hız ve İvme Limitleri ---
+    linear.x.has_velocity_limits: true
+    linear.x.has_acceleration_limits: true
+    linear.x.max_velocity: 1.0
+    linear.x.min_velocity: -1.0
+    linear.x.max_acceleration: 0.6
+    
+    linear.y.has_velocity_limits: true
+    linear.y.has_acceleration_limits: true
+    linear.y.max_velocity: 1.0
+    linear.y.min_velocity: -1.0
+    linear.y.max_acceleration: 0.6
+    
+    angular.z.has_velocity_limits: true
+    angular.z.has_acceleration_limits: true
+    angular.z.max_velocity: 1.0
+    angular.z.min_velocity: -1.0
+    angular.z.max_acceleration: 0.8

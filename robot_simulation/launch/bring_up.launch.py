@@ -32,6 +32,11 @@ def generate_launch_description():
             "launch"
     )
 
+    localization_path = os.path.join(
+            get_package_share_directory("localization_pkg"),
+            "launch"
+    )
+
     gz_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim, 'launch', 'gzserver.launch.py')
@@ -85,12 +90,19 @@ def generate_launch_description():
             )
     )
 
+    localization = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(localization_path,"localization.launch.py")
+            )
+    )
+
     return LaunchDescription([
         gz_server,
         gz_client,
         robot_state_publisher,
         spawn_entity,
         controllers,
+        localization,
         lidar_processor,
         mapping
     ])

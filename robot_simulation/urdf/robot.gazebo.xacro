@@ -9,6 +9,11 @@
       <robot_param>robot_description</robot_param>
       <robot_param_node>robot_state_publisher</robot_param_node>
       <parameters>$(find robot_simulation)/config/robot_controllers.yaml</parameters>
+      <ros>
+        <remapping>/mecanum_drive_controller/tf_odometry:=/tf</remapping>
+        <remapping>/mecanum_drive_controller/odometry:=/odom</remapping>
+        <remapping>/mecanum_drive_controller/reference_unstamped:=/cmd_vel</remapping>
+      </ros>
     </plugin>
   </gazebo>
 
